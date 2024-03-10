@@ -20,3 +20,9 @@ interface Rocket {
     wikipedia: string;
   };
 }
+
+export interface CommentData {
+  id: number;
+  comment: string;
+  missionId: string;
+}

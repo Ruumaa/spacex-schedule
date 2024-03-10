@@ -1,6 +1,8 @@
-export const useLocalStorage = (key: any) => {
+import { CommentData } from './types';
+
+export const useLocalStorage = (key: string) => {
   // setItem
-  const setItem = (value: any) => {
+  const setItem = (value: CommentData) => {
     try {
       const existingItems = getItem();
       const updatedItem = existingItems!.concat(value);

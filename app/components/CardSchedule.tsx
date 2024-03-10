@@ -1,6 +1,6 @@
 'use client';
 
-import { LaunchesUpcoming } from '@/utils/types';
+import { LaunchesUpcoming, CommentData } from '@/utils/types';
 import {
   Card,
   CardContent,
@@ -22,15 +22,14 @@ type Props = {
 };
 
 function CardSchedule({ data }: Props) {
-  const [value, setValue] = useState('');
-  const [itemDisplay, setItemDisplay] = useState([]);
+  const [itemDisplay, setItemDisplay] = useState<CommentData[]>([]);
   const [comments, setComments] = useState<Record<string, string>>({});
 
   // custom hook
   const { setItem, getItem, removeItem } = useLocalStorage('comment');
 
   const updateData = async () => {
-    const updatedData = await getItem();
+    const updatedData: CommentData[] = await getItem();
     setItemDisplay(updatedData);
   };
 
@@ -41,7 +40,7 @@ function CardSchedule({ data }: Props) {
 
   const handleAddComment = async (missionId: string) => {
     try {
-      const generateId = Math.floor(Math.random() * 1000);
+      const generateId = Math.floor(Math.random() * 10000);
       const payload = {
         id: generateId,
         comment: comments[missionId],
@@ -57,9 +56,9 @@ function CardSchedule({ data }: Props) {
 
   const handleRemoveComment = async (idComment: number) => {
     try {
-      const currentComments = await getItem();
+      const currentComments: CommentData[] = await getItem();
       const updatedComments = currentComments.filter(
-        (comment: any) => comment.id !== idComment
+        (comment: CommentData) => comment.id !== idComment
       );
       window.localStorage.setItem('comment', JSON.stringify(updatedComments));
       // setIsUpdated(true);
@@ -78,7 +77,7 @@ function CardSchedule({ data }: Props) {
 
   const filteredComment = (missionId: string) => {
     return itemDisplay.filter(
-      (comment: any) => comment.missionId === missionId
+      (comment: CommentData) => comment.missionId === missionId
     );
   };
 
@@ -89,6 +88,7 @@ function CardSchedule({ data }: Props) {
       [id]: value,
     }));
   };
+
   return (
     <div>
       {' '}
